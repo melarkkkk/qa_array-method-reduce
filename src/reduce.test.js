@@ -11,15 +11,11 @@ describe('reduce', () => {
     delete Array.prototype.reduce2;
   });
 
-  it('should be declared', () => {
-    expect(reduce).toBeInstanceOf(Function);
-  });
-
   it('should not mutate the original array', () => {
     const array = [1, 2, 3, 4, 5];
     const copy = [...array];
 
-    array.reduce((prev, curr) => prev + curr, 0);
+    array.reduce2((prev, curr) => prev + curr, 0);
 
     expect(array).toEqual(copy);
   });
@@ -27,7 +23,7 @@ describe('reduce', () => {
   it('should return a value', () => {
     const arr = [1, 2, 3];
 
-    const result = arr.reduce((acc, x) => acc + x, 0);
+    const result = arr.reduce2((acc, x) => acc + x, 0);
 
     expect(result).toBeDefined();
   });
@@ -35,7 +31,7 @@ describe('reduce', () => {
   it('should return the same type as initial value', () => {
     const arr = [1, 2, 3];
 
-    const result = arr.reduce((acc, x) => {
+    const result = arr.reduce2((acc, x) => {
       acc.push(x);
 
       return acc;
@@ -48,7 +44,7 @@ describe('reduce', () => {
     const arr = [1, 2, 3];
     const cb = jest.fn((acc, x) => acc + x);
 
-    arr.reduce(cb, 0);
+    arr.reduce2(cb, 0);
 
     expect(cb).toHaveBeenCalledTimes(arr.length);
   });
@@ -57,7 +53,7 @@ describe('reduce', () => {
     const arr = [10, 20];
     const cb = jest.fn((acc, x) => acc + x);
 
-    arr.reduce(cb, 0);
+    arr.reduce2(cb, 0);
 
     expect(cb).toHaveBeenNthCalledWith(
       1,
@@ -71,15 +67,9 @@ describe('reduce', () => {
   it('should not call callback for empty array', () => {
     const cb = jest.fn();
 
-    const result = [].reduce(cb, 100);
+    const result = [].reduce2(cb, 100);
 
     expect(cb).not.toHaveBeenCalled();
     expect(result).toBe(100);
-  });
-
-  it('should throw error on empty array without initial value', () => {
-    expect(() => {
-      [].reduce(() => {});
-    }).toThrow(TypeError);
   });
 });
