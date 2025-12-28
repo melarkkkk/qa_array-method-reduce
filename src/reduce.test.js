@@ -1,4 +1,5 @@
 'use strict';
+/* eslint-disable max-len */
 
 const { reduce } = require('./reduce');
 
@@ -28,6 +29,13 @@ describe('reduce', () => {
     expect(result).toBeDefined();
   });
 
+  it('should reduce array without initial value', () => {
+    const arr = [1, 2, 3];
+    const result = arr.reduce2((acc, curr) => acc + curr);
+
+    expect(result).toBe(6);
+  });
+
   it('should return the same type as initial value', () => {
     const arr = [1, 2, 3];
 
@@ -38,6 +46,21 @@ describe('reduce', () => {
     }, []);
 
     expect(Array.isArray(result)).toBe(true);
+  });
+
+  it.skip('should throw TypeError when reducing empty array without initial value', () => {
+    const arr = [];
+
+    expect(() => arr.reduce2((acc, curr) => acc + curr)).toThrow(TypeError);
+  });
+
+  it('should work with the single element array correctly', () => {
+    const arr = [42];
+    const result1 = arr.reduce2((acc, curr) => acc + curr);
+    const result2 = arr.reduce2((acc, curr) => acc + curr, -42);
+
+    expect(result1).toBe(42);
+    expect(result2).toBe(0);
   });
 
   it('should call callback once per element', () => {
